@@ -12,6 +12,7 @@ namespace TaskFlow.Infrastructure.Context
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
+
         }
 
         public DbSet<TaskItem> Tasks { get; set; }
@@ -26,7 +27,6 @@ namespace TaskFlow.Infrastructure.Context
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);
             base.OnModelCreating(modelBuilder);
-
         }
     }
 }
