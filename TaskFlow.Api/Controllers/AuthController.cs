@@ -31,7 +31,7 @@ namespace TaskFlow.Api.Controllers
         {
             var result = await _authService.LoginAsync(loginRequest);
             if (!result.Success)
-                return BadRequest(new { error = result.Error });
+                return Unauthorized(new { error = result.Error });
             return Ok(result.Value);
         }
     }
