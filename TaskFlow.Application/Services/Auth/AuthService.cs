@@ -59,14 +59,8 @@ namespace TaskFlow.Application.Services.Auth
             var response = new AuthResponse
             {
                 Token = token,
-                User = new UserResponse
-                {
-                    Id = user.Id,
-                    Name = user.Name,
-                    Email = user.Email,
-                    IsActive = user.IsActive,
-                    CreatedAt = user.CreatedAt
-                }
+                Expiration = DateTime.UtcNow.AddMinutes(15),
+                User = MapToResponse(user)
             };
 
             return Result<AuthResponse>.Ok(response);
@@ -83,10 +77,16 @@ namespace TaskFlow.Application.Services.Auth
                 return Result<AuthResponse>.Fail("Invalid credentials.");
 
             var token = _tokenService.GenerateToken(user);
+            
+            if(!string.IsNullOrWhiteSpace(token))
+            {
+                return Result<AuthResponse>.Fail("Failed to generate token.");
+            }
 
             var response = new AuthResponse
             {
                 Token = token,
+                Expiration = DateTime.UtcNow.AddMinutes(15),
                 User = MapToResponse(user)
             };
 
